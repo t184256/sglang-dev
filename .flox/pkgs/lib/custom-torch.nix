@@ -4,21 +4,28 @@
 # Arguments:
 #   lib:                nixpkgs lib
 #   torchBase:          the original python3XXPackages.torch (from `super` in packageOverrides)
-#   smCapability:       GPU arch in dotted format, e.g., "9.0"
+#   smCapability:       GPU arch in dotted format, e.g., "9.0" (single-SM shorthand)
+#   gpuTargets:         list of GPU archs, e.g., [ "8.0" "9.0" ] (defaults to [ smCapability ])
+#   smTag:              override pname tag, e.g., "all" (defaults to "sm<digits>" from smCapability)
 #   cpuISA:             CPU ISA record from cpu-isa.nix (e.g., { name = "avx512"; flags = [...]; })
 #   platform:           "x86_64-linux" or "aarch64-linux"
 #   extraPreConfigure:  additional shell commands for preConfigure (e.g., "export USE_CUDNN=0")
 #   cudaVersionTag:     tag for pname differentiation (e.g., "cuda12_9", "cuda12_8")
-{ lib, torchBase, smCapability, cpuISA, platform, extraPreConfigure ? "", cudaVersionTag ? "cuda12_8" }:
+{ lib, torchBase, smCapability ? null, gpuTargets ? [ smCapability ], smTag ? null, cpuISA, platform, extraPreConfigure ? "", cudaVersionTag ? "cuda12_8" }:
+
+let
+  effectiveSmTag = if smTag != null then smTag
+    else "sm${builtins.replaceStrings ["."] [""] smCapability}";
+in
 
 (torchBase.override {
   cudaSupport = true;
-  gpuTargets = [ smCapability ];
+  inherit gpuTargets;
 }).overrideAttrs (oldAttrs: {
-  pname = "pytorch-custom-${cudaVersionTag}-sm${builtins.replaceStrings ["."] [""] smCapability}-${cpuISA.name}";
+  pname = "pytorch-custom-${cudaVersionTag}-${effectiveSmTag}-${cpuISA.name}";
 
   passthru = oldAttrs.passthru // {
-    gpuArch = smCapability;
+    gpuArch = if smCapability != null then smCapability else gpuTargets;
     blasProvider = "cublas";
     inherit (cpuISA) name;
   };
