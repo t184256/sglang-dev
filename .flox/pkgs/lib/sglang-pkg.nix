@@ -21,6 +21,12 @@ python3.pkgs.buildPythonPackage rec {
   # either lazily imported or provided by our explicit propagatedBuildInputs.
   pythonRemoveDeps = true;
 
+  # The ninja Python package installs a setup hook that hijacks buildPhase.
+  # This is a pre-built wheel — disable ninja/cmake build integration.
+  dontUseNinjaBuild = true;
+  dontUseNinjaInstall = true;
+  dontUseCmakeConfigure = true;
+
   propagatedBuildInputs = [
     # ── Custom CUDA packages ──────────────────────────────────────────
     sgl-kernel

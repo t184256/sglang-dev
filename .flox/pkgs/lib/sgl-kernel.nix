@@ -29,9 +29,17 @@ python3.pkgs.buildPythonPackage rec {
     "libcuda.so.1"                  # provided by the NVIDIA driver at runtime
   ];
 
+  # Torch's ninja dependency installs a setup hook that hijacks buildPhase.
+  # This is a pre-built wheel — disable ninja/cmake build integration.
+  dontUseNinjaBuild = true;
+  dontUseNinjaInstall = true;
+  dontUseCmakeConfigure = true;
+
   propagatedBuildInputs = [
     python3.pkgs.torch
   ];
 
-  pythonImportsCheck = [ "sgl_kernel" ];
+  # Import requires libcuda.so.1 (NVIDIA driver) — not available in the build sandbox.
+  dontCheckRuntimeDeps = true;
+  pythonImportsCheck = [ ];
 }

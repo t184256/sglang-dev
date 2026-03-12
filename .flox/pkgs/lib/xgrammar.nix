@@ -20,9 +20,17 @@ python3.pkgs.buildPythonPackage rec {
     stdenv.cc.cc.lib   # libstdc++
   ];
 
+  # Torch's ninja dependency installs a setup hook that hijacks buildPhase.
+  # This is a pre-built wheel — disable ninja/cmake build integration.
+  dontUseNinjaBuild = true;
+  dontUseNinjaInstall = true;
+  dontUseCmakeConfigure = true;
+
   propagatedBuildInputs = [
     python3.pkgs.torch
+    python3.pkgs.pydantic          # imported at top level by structural_tag.py
   ];
 
-  pythonImportsCheck = [ "xgrammar" ];
+  # Import pulls in transformers, pydantic, etc. — provided by sglang at runtime.
+  pythonImportsCheck = [ ];
 }

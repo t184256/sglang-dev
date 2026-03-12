@@ -43,11 +43,18 @@ let
       "libcuda.so.1"
     ];
 
+    # Torch's ninja dependency installs a setup hook that hijacks buildPhase.
+    # This is a pre-built wheel — disable ninja/cmake build integration.
+    dontUseNinjaBuild = true;
+    dontUseNinjaInstall = true;
+    dontUseCmakeConfigure = true;
+
     propagatedBuildInputs = [
       python3.pkgs.torch
     ];
 
-    pythonImportsCheck = [ "flashinfer_jit_cache" ];
+    # Import requires CUDA runtime (libcuda.so.1) — not available in build sandbox.
+    pythonImportsCheck = [ ];
   };
 
   flashinfer-python = python3.pkgs.buildPythonPackage rec {
@@ -60,6 +67,12 @@ let
       sha256 = "0l59hhyxhg4vnk700bfzqqxprqxag9k2sbib0hg4308j8msqn2jh";
     };
 
+    # Torch's ninja dependency installs a setup hook that hijacks buildPhase.
+    # This is a pre-built wheel — disable ninja/cmake build integration.
+    dontUseNinjaBuild = true;
+    dontUseNinjaInstall = true;
+    dontUseCmakeConfigure = true;
+
     propagatedBuildInputs = [
       flashinfer-cubin
       flashinfer-jit-cache
@@ -67,7 +80,8 @@ let
       python3.pkgs.numpy
     ];
 
-    pythonImportsCheck = [ "flashinfer" ];
+    # Import requires CUDA runtime (libcuda.so.1) — not available in build sandbox.
+    pythonImportsCheck = [ ];
   };
 
 in {
