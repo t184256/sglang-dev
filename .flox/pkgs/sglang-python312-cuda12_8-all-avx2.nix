@@ -1,13 +1,15 @@
 # SGLang 0.5.9 — all GPU architectures (SM75–SM120) — AVX2
 # CUDA 12.8 — Requires NVIDIA driver 550+
 # Custom PyTorch built from source (all SMs + AVX2)
-{ pkgs ? import <nixpkgs> {} }:
+{ }:
 let
   allCapabilities = [ "7.5" "8.0" "8.6" "8.9" "9.0" "10.0" "12.0" ];
 
   nixpkgs_pinned = import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/0182a361324364ae3f436a63005877674cf45efb.tar.gz";
+    sha256 = "1i04bclcxsqhk172wvj74fcgk2sd7037mi9bgxp7jdx42886bl6h";
   }) {
+    system = platform;
     config = {
       allowUnfree = true;
       cudaSupport = true;
