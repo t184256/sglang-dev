@@ -9,6 +9,7 @@
 { pkgs }:
 
 let
+  buildMeta = builtins.fromJSON (builtins.readFile ../../build-meta/phi-4-mini-instruct-fp8-sglang.json);
   slug = "microsoft--Phi-4-mini-instruct-FP8-TORCHAO";
   snapshotId = "b63ecd840bb9835f35e6d884d47810c4deec89dc";
 
@@ -27,7 +28,7 @@ let
 in
 pkgs.stdenv.mkDerivation {
   pname = "phi-4-mini-instruct-fp8-sglang";
-  version = "1.0.0";
+  version = "1.0.0+${buildMeta.git_rev_short}";
   dontUnpack = true;
   nativeBuildInputs = [ pkgs.jq ];
   dontBuild = true;

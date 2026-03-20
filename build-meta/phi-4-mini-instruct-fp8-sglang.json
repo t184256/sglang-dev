@@ -1,0 +1,7 @@
+{
+  "build_version": 1,
+  "force_increment": 0,
+  "git_rev": "b15d09b3054e3a47a878613bf1beddd73b7c9f5d",
+  "git_rev_short": "b15d09b",
+  "changelog": "Initial build-meta versioning."
+}

@@ -3,6 +3,8 @@
 # Custom PyTorch built from source (SM90 + AVX2)
 { pkgs ? import <nixpkgs> {} }:
 let
+  buildMeta = builtins.fromJSON (builtins.readFile ../../build-meta/sglang.json);
+
   nixpkgs_pinned = import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/0182a361324364ae3f436a63005877674cf45efb.tar.gz";
   }) {
@@ -63,6 +65,7 @@ let
 in
   sglang.overrideAttrs (oldAttrs: {
     pname = variantName;
+    version = "${oldAttrs.version}+${buildMeta.git_rev_short}";
     requiredSystemFeatures = [ "big-parallel" ];
     meta = oldAttrs.meta // {
       description = "SGLang 0.5.9 for NVIDIA H100/H200 (SM90) [CUDA 12.8, custom PyTorch AVX2]";

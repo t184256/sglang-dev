@@ -3,6 +3,8 @@
 # Custom PyTorch built from source (all SMs + AVX2)
 { }:
 let
+  buildMeta = builtins.fromJSON (builtins.readFile ../../build-meta/sglang.json);
+
   allCapabilities = [ "7.5" "8.0" "8.6" "8.9" "9.0" "10.0" "12.0" ];
 
   nixpkgs_pinned = import (builtins.fetchTarball {
@@ -68,6 +70,7 @@ let
 in
   sglang.overrideAttrs (oldAttrs: {
     pname = variantName;
+    version = "${oldAttrs.version}+${buildMeta.git_rev_short}";
     requiredSystemFeatures = [ "big-parallel" ];
     meta = oldAttrs.meta // {
       description = "SGLang 0.5.9 for all NVIDIA GPUs SM75-SM120 [CUDA 12.8, custom PyTorch AVX2]";
