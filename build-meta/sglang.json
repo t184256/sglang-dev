@@ -1,7 +1,7 @@
 {
   "build_version": 1,
   "force_increment": 0,
-  "git_rev": "b15d09b3054e3a47a878613bf1beddd73b7c9f5d",
-  "git_rev_short": "b15d09b",
-  "changelog": "Initial build-meta versioning."
+  "git_rev": "bbe9c7eeb520b0a67e92d133dfc137a3688dc7f2",
+  "git_rev_short": "bbe9c7e",
+  "changelog": "Update flashinfer 0.6.5->0.6.8.post1, xgrammar 0.1.27->0.1.33; fix git_rev to actual v0.5.9 tag."
 }

@@ -1,4 +1,4 @@
-# FlashInfer 0.6.5 — three-wheel composition for FlashAttention-3
+# FlashInfer 0.6.8.post1 — three-wheel composition for FlashAttention-3
 # - flashinfer-cubin:      pre-compiled CUDA binary objects (pure Python wheel)
 # - flashinfer-jit-cache:  compiled CUDA extensions (needs autoPatchelf, cu128 variant)
 # - flashinfer-python:     pure Python frontend, propagates cubin + jit-cache + torch
@@ -26,12 +26,12 @@ let
 
   flashinfer-cubin = python3.pkgs.buildPythonPackage rec {
     pname = "flashinfer-cubin";
-    version = "0.6.5";
+    version = "0.6.8.post1";
     format = "wheel";
 
     src = builtins.fetchurl {
-      url = "https://files.pythonhosted.org/packages/61/b4/18659537e1442cded7b10c87e4609607d6e719f9eaa5b4beadf7a3c38062/flashinfer_cubin-0.6.5-py3-none-any.whl";
-      sha256 = "0f64vwcygcc403fcdalrj8aa6hfx2jr67flhhhd42byyhfgzvpnn";
+      url = "https://files.pythonhosted.org/packages/11/b7/5e3b1a8c67031b421a8bd29c2bc29b900a550bb3392e8bda18bb15b5e476/flashinfer_cubin-0.6.8.post1-py3-none-any.whl";
+      sha256 = "sha256-Q2NtTNOeaUqD12qJ+H/vzfTOy0xPfdItrCXsNowekB8=";
     };
 
     pythonImportsCheck = [ "flashinfer_cubin" ];
@@ -39,12 +39,13 @@ let
 
   flashinfer-jit-cache = python3.pkgs.buildPythonPackage rec {
     pname = "flashinfer-jit-cache";
-    version = "0.6.5+cu128";
+    version = "0.6.8.post1+cu128";
     format = "wheel";
 
     src = builtins.fetchurl {
-      url = "https://github.com/flashinfer-ai/flashinfer/releases/download/v0.6.5/flashinfer_jit_cache-0.6.5+cu128-cp39-abi3-manylinux_2_28_x86_64.whl";
-      sha256 = "175xcckipi4yxn2w0m3vbaxziil8qc0pp7wwswk5nw7zlsyvgf5n";
+      name = "flashinfer_jit_cache-0.6.8.post1+cu128-cp39-abi3-manylinux_2_28_x86_64.whl";
+      url = "https://github.com/flashinfer-ai/flashinfer/releases/download/v0.6.8.post1/flashinfer_jit_cache-0.6.8.post1%2Bcu128-cp39-abi3-manylinux_2_28_x86_64.whl";
+      sha256 = "sha256-BhbVJENMC0YXcmh3vSfRzlRWoyL1Z36ve7YX04dXIso=";
     };
 
     nativeBuildInputs = [
@@ -78,12 +79,12 @@ let
 
   flashinfer-python = python3.pkgs.buildPythonPackage rec {
     pname = "flashinfer-python";
-    version = "0.6.5";
+    version = "0.6.8";
     format = "wheel";
 
     src = builtins.fetchurl {
-      url = "https://files.pythonhosted.org/packages/4f/83/eea2a74700b5fcae36ee2b748db9c3554a83a3f9e2dc4f3816369c5cb653/flashinfer_python-0.6.5-py3-none-any.whl";
-      sha256 = "0l59hhyxhg4vnk700bfzqqxprqxag9k2sbib0hg4308j8msqn2jh";
+      url = "https://files.pythonhosted.org/packages/9e/f8/54f8764748f1ba7d45a1915a1a51ad08f63b68a2f2141e399bdb0379d146/flashinfer_python-0.6.8-py3-none-any.whl";
+      sha256 = "sha256-6W0JuBDO3V8mpnZP+s6EsNOdxgy8xhZ9xhvePpSbPtA=";
     };
 
     # Torch's ninja dependency installs a setup hook that hijacks buildPhase.
