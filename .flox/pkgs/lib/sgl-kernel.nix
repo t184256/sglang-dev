@@ -1,15 +1,16 @@
-# sgl-kernel 0.3.21 — pre-built CUDA kernel library for SGLang
+# sglang-kernel 0.4.1 — pre-built CUDA kernel library for SGLang
+# (renamed from sgl-kernel at 0.4.x)
 # Uses autoPatchelfHook to patch ELF binaries against CUDA runtime libs.
 { python3, cudaPackages, autoPatchelfHook, stdenv, numactl }:
 
 python3.pkgs.buildPythonPackage rec {
-  pname = "sgl-kernel";
-  version = "0.3.21";
+  pname = "sglang-kernel";
+  version = "0.4.1";
   format = "wheel";
 
   src = builtins.fetchurl {
-    url = "https://files.pythonhosted.org/packages/36/9f/f836e126002c7cfcfe35418f6cff5a63fe3f529c609b334ca4775354b4d5/sgl_kernel-0.3.21-cp310-abi3-manylinux2014_x86_64.whl";
-    sha256 = "1axa0g9r5v2k1kh4xa7ryxc7r6s8yvavmqijki4ryxfdlfib7psp";
+    url = "https://files.pythonhosted.org/packages/97/26/d4a84be6587b57d20214cc2ee1e7f41b7e3336df357c45a833f25b1f1abf/sglang_kernel-0.4.1-cp310-abi3-manylinux2014_x86_64.whl";
+    sha256 = "01m2gawmlkkafgww2g77r82f5qmgvhly9zi5dv1zzkb48brmvav4";
   };
 
   nativeBuildInputs = [
@@ -21,7 +22,7 @@ python3.pkgs.buildPythonPackage rec {
     cudaPackages.cuda_cudart        # libcudart.so.12
     cudaPackages.cuda_nvrtc         # libnvrtc.so.12
     cudaPackages.libcublas          # libcublas.so.12, libcublasLt.so.12
-    python3.pkgs.torch              # libtorch.so, libc10.so, libc10_cuda.so, libtorch_{cpu,cuda}.so
+    python3.pkgs.torch              # libtorch.so, libc10.so, libc10_cuda.so
     numactl                         # libnuma.so.1 (mscclpp, sm90/common_ops)
   ];
 

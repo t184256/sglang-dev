@@ -1,7 +1,7 @@
 {
   "build_version": 1,
   "force_increment": 0,
-  "git_rev": "bbe9c7eeb520b0a67e92d133dfc137a3688dc7f2",
-  "git_rev_short": "bbe9c7e",
-  "changelog": "Update flashinfer 0.6.5->0.6.8.post1, xgrammar 0.1.27->0.1.33; fix git_rev to actual v0.5.9 tag."
+  "git_rev": "1519acf37c23f2189adb93f57ca9cd2db1bebf18",
+  "git_rev_short": "1519acf",
+  "changelog": "Update sglang 0.5.9->0.5.10."
 }

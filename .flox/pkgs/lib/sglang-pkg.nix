@@ -1,4 +1,4 @@
-# SGLang 0.5.9 — high-performance LLM serving engine
+# SGLang 0.5.10 — high-performance LLM serving engine
 # Pure Python wheel that composes all custom CUDA packages + nixpkgs dependencies.
 #
 # SGLang declares ~60 Requires-Dist entries, many of which are not in nixpkgs
@@ -9,12 +9,12 @@
 
 python3.pkgs.buildPythonPackage rec {
   pname = "sglang";
-  version = "0.5.9";
+  version = "0.5.10";
   format = "wheel";
 
   src = builtins.fetchurl {
-    url = "https://files.pythonhosted.org/packages/97/b4/37452595c88e00ac446f6fd9cc2c8ee25756d2c519cdf0e3b9c4f50882e0/sglang-0.5.9-py3-none-any.whl";
-    sha256 = "1lb4pcdld4x3mcw8f7xwzz776k0lyb7k7ral8bs0b9py4m6nr4wa";
+    url = "https://files.pythonhosted.org/packages/1f/ee/f7a946162ed538f47a1c5542f93410e5bf9a0c4ca6021d4000e6f9b87f7d/sglang-0.5.10-py3-none-any.whl";
+    sha256 = "0xj0xd6vrv5snc4apqkqyd8y86ig46jvq9p5zqqqib3xsnjmb25c";
   };
 
   # Strip ALL Requires-Dist metadata — many deps are not in nixpkgs and are
@@ -29,7 +29,7 @@ python3.pkgs.buildPythonPackage rec {
 
   propagatedBuildInputs = [
     # ── Custom CUDA packages ──────────────────────────────────────────
-    sgl-kernel
+    sgl-kernel  # now sglang-kernel 0.4.x
     flashinfer-python
     xgrammar
 
