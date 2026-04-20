@@ -1,35 +1,37 @@
-# SGLang 0.5.10 — high-performance LLM serving engine
-# Pure Python wheel that composes all custom CUDA packages + nixpkgs dependencies.
-#
-# SGLang declares ~60 Requires-Dist entries, many of which are not in nixpkgs
-# (nvidia-cutlass-dsl, quack-kernels, etc.).
-# We use pythonRemoveDeps to strip ALL dependency metadata from the wheel, then
-# explicitly provide the deps needed for core LLM serving in propagatedBuildInputs.
+# SGLang post-DFlash (2026-04-15 commit 43925d1) — built from git source.
+# Pure Python package; setuptools-scm needs SETUPTOOLS_SCM_PRETEND_VERSION.
+# Source lives in python/ subdirectory of the monorepo.
 { python3, sgl-kernel, flashinfer-python, xgrammar }:
 
 python3.pkgs.buildPythonPackage rec {
   pname = "sglang";
-  version = "0.5.10";
-  format = "wheel";
+  version = "0.5.10.post0";
+  pyproject = true;
 
-  src = builtins.fetchurl {
-    url = "https://files.pythonhosted.org/packages/1f/ee/f7a946162ed538f47a1c5542f93410e5bf9a0c4ca6021d4000e6f9b87f7d/sglang-0.5.10-py3-none-any.whl";
-    sha256 = "0xj0xd6vrv5snc4apqkqyd8y86ig46jvq9p5zqqqib3xsnjmb25c";
+  src = builtins.fetchTarball {
+    url = "https://github.com/sgl-project/sglang/archive/43925d179d7a4a43f700d97a302882fc63d8c618.tar.gz";
+    sha256 = "sha256-LYP3J39n8BKav1sMHD1YccpL1gH5ftPFiGIqbGLMaY8=";
   };
+
+  # Python package lives in python/ subdirectory of the monorepo.
+  preConfigure = "cd python";
+
+  # Tell setuptools-scm the version (no .git in fetchTarball).
+  env.SETUPTOOLS_SCM_PRETEND_VERSION = version;
+
+  nativeBuildInputs = with python3.pkgs; [
+    setuptools
+    setuptools-scm
+    wheel
+  ];
 
   # Strip ALL Requires-Dist metadata — many deps are not in nixpkgs and are
   # either lazily imported or provided by our explicit propagatedBuildInputs.
   pythonRemoveDeps = true;
 
-  # The ninja Python package installs a setup hook that hijacks buildPhase.
-  # This is a pre-built wheel — disable ninja/cmake build integration.
-  dontUseNinjaBuild = true;
-  dontUseNinjaInstall = true;
-  dontUseCmakeConfigure = true;
-
   propagatedBuildInputs = [
     # ── Custom CUDA packages ──────────────────────────────────────────
-    sgl-kernel  # now sglang-kernel 0.4.x
+    sgl-kernel  # now sglang-kernel 0.4.1
     flashinfer-python
     xgrammar
 
@@ -92,6 +94,7 @@ python3.pkgs.buildPythonPackage rec {
     python3.pkgs.nvidia-ml-py
     python3.pkgs.gguf
     python3.pkgs.cuda-bindings
+    python3.pkgs.soundfile  # streaming ASR endpoint (added post-0.5.10)
 
     # ── OpenAI Responses API ─────────────────────────────────────────
     python3.pkgs.openai-harmony

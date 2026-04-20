@@ -1,7 +1,7 @@
 {
   "build_version": 1,
   "force_increment": 0,
-  "git_rev": "1519acf37c23f2189adb93f57ca9cd2db1bebf18",
-  "git_rev_short": "1519acf",
-  "changelog": "Update sglang 0.5.9->0.5.10."
+  "git_rev": "43925d179d7a4a43f700d97a302882fc63d8c618",
+  "git_rev_short": "43925d1",
+  "changelog": "update to 43925d1 that has dflash"
 }
